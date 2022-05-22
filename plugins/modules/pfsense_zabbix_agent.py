@@ -76,6 +76,7 @@ options:
     choices: ['unencrypted', 'psk', 'cert']
     default: [unencrypted]
     type: list
+    elements: str
   tlscafile:
     description: Top-level CA certificate for peer certificate verification.
     required: false

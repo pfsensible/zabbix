@@ -22,7 +22,7 @@ ZABBIX_AGENT_ARGUMENT_SPEC = dict(
     buffersize=dict(type='int', default=100),
     startagents=dict(type='int', default=3),
     tlsconnect=dict(default='unencrypted', choices=['unencrypted', 'psk', 'cert']),
-    tlsaccept=dict(type='list', default=['unencrypted'], choices=['unencrypted', 'psk', 'cert']),
+    tlsaccept=dict(type='list', default=['unencrypted'], choices=['unencrypted', 'psk', 'cert'], elements='str'),
     tlscafile=dict(type='str', default='none'),
     tlscaos=dict(type='bool', default=False),
     tlscrlfile=dict(type='str', default='none'),
