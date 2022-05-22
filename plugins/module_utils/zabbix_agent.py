@@ -33,6 +33,7 @@ ZABBIX_AGENT_ARGUMENT_SPEC = dict(
     enabled=dict(type='bool', default=False),
 )
 
+
 class PFSenseZabbixAgentModule(PFSenseModuleBase):
     """ module managing pfsense zabbix-agent configuration """
 
@@ -49,20 +50,20 @@ class PFSenseZabbixAgentModule(PFSenseModuleBase):
         self.name = "pfsense_zabbix_agent"
         self.obj = dict()
 
-        #pkgs_elt = self.pfsense.get_element('installedpackages')
-        #if pkgs_elt is None:
+        # pkgs_elt = self.pfsense.get_element('installedpackages')
+        # if pkgs_elt is None:
         # The zabbixagentlts element is not created on package install
         self.root_elt = self.pfsense.get_element('installedpackages')
         if self.root_elt is None:
             self.module.fail_json(msg='Unable to find installed packages configuration entry. Are you sure zabbix-agent is installed?')
-        #zabbixagent_elt = pkgs_elt.find('zabbixagentlts')
-        #if zabbixagent_elt is None:
-        #    zabbixagent_elt = self.pfsense.new_element('zabbixagentlts')
-        #    pkgs_elt.append(zabbixagent_elt)
-        #self.root_elt = zabbixagent_elt.find('config')
-        #if self.root_elt is None:
-        #    self.root_elt = self.pfsense.new_element('config')
-        #    zabbixagent_elt.append(self.root_elt)
+        # zabbixagent_elt = pkgs_elt.find('zabbixagentlts')
+        # if zabbixagent_elt is None:
+        #     zabbixagent_elt = self.pfsense.new_element('zabbixagentlts')
+        #     pkgs_elt.append(zabbixagent_elt)
+        # self.root_elt = zabbixagent_elt.find('config')
+        # if self.root_elt is None:
+        #     self.root_elt = self.pfsense.new_element('config')
+        #     zabbixagent_elt.append(self.root_elt)
 
     ##############################
     # params processing
@@ -109,7 +110,7 @@ class PFSenseZabbixAgentModule(PFSenseModuleBase):
         """ create the XML target_elt """
         zabbix_elt = self.pfsense.new_element('zabbixagentlts')
         zabbix_elt.append(self.pfsense.new_element('config'))
- 
+
         return zabbix_elt
 
     def _find_target(self):
