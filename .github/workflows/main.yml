@@ -62,7 +62,7 @@ jobs:
           dir=$(pwd)
           mkdir -p ~/.ansible/collections/ansible_collections/pfsensible
           cd ~/.ansible/collections/ansible_collections/pfsensible
-          cp -al $dir core
-          cd core
+          cp -al $dir zabbix
+          cd zabbix
           ansible-test sanity --requirements --python ${{ matrix.python-version }}
           ansible-test units --requirements --python ${{ matrix.python-version }}
