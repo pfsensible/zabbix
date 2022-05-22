@@ -8,19 +8,14 @@
 from __future__ import absolute_import, division, print_function
 __metaclass__ = type
 
-ANSIBLE_METADATA = {'metadata_version': '1.1',
-                    'status': ['preview'],
-                    'supported_by': 'community'}
-
-DOCUMENTATION = """
+DOCUMENTATION = r'''
 ---
 module: pfsense_zabbix_agent
-version_added: 0.1.0
-author: Orion Poplawski (@opoplawski)
 short_description: Manage pfSense zabbix-agent configuration
 description:
-  - Manage pfSense zabbix-agent configuration
-notes:
+  - Manage pfSense zabbix-agent configuration.
+version_added: "0.1.0"
+author: "Orion Poplawski (@opoplawski)"
 options:
   hostname:
     description: The hostname of the agent.
@@ -120,24 +115,32 @@ options:
     description: Enable or disable zabbix-agent.
     default: true
     type: bool
-"""
+notes:
+requirements:
+  - pfsensible.core >= 0.4.0
+'''
 
-EXAMPLES = """
-- name: Modify interface
+EXAMPLES = r'''
+- name: Configure Zabbix agent
   pfsense_zabbix_agent:
-    interface: lan
-"""
+      enabled: yes
+      hostname: "{{ ansible_nodename }}"
+      server: "{{ zabbix_server }}"
+      serveractive: "{{ zabbix_server }}"
+      listenip: "{{ ansible_igb0.ipv4[0].address if ansible_igb0 is defined else ansible_ix0.ipv4[0].address }}"
+    become: yes
+'''
 
-RETURN = """
+RETURN = r'''
 commands:
     description: the set of commands that would be pushed to the remote device (if pfSense had a CLI)
     returned: always
     type: list
-    sample: ["create zabbix_agent 'lan']
-"""
+    sample: ["create zabbix_agent 'hostname=myfirewall'"]
+'''
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.pfsensible.zabbix.plugins.module_utils.interface import PFSenseZabbixAgentModule, ZABBIX_AGENT_ARGUMENT_SPEC
+from ansible_collections.pfsensible.zabbix.plugins.module_utils.zabbix_agent import PFSenseZabbixAgentModule, ZABBIX_AGENT_ARGUMENT_SPEC
 
 
 def main():
