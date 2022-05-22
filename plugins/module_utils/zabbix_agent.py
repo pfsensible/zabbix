@@ -13,7 +13,7 @@ from ansible_collections.pfsensible.core.plugins.module_utils.module_base import
 ZABBIX_AGENT_ARGUMENT_SPEC = dict(
     hostname=dict(required=True, type='str'),
     server=dict(required=True, type='str'),
-    serveractive=dict(required=True, type='str'),
+    serveractive=dict(type='str'),
     listenip=dict(type='str', default='0.0.0.0'),
     listenport=dict(type='int', default=10050),
     refreshactchecks=dict(type='int', default=120),
@@ -22,7 +22,7 @@ ZABBIX_AGENT_ARGUMENT_SPEC = dict(
     buffersize=dict(type='int', default=100),
     startagents=dict(type='int', default=3),
     tlsconnect=dict(default='unencrypted', choices=['unencrypted', 'psk', 'cert']),
-    tlsaccept=dict(type=list, default=['unencrypted'], choices=['unencrypted', 'psk', 'cert']),
+    tlsaccept=dict(type='list', default=['unencrypted'], choices=['unencrypted', 'psk', 'cert']),
     tlscafile=dict(type='str', default='none'),
     tlscaos=dict(type='bool', default=False),
     tlscrlfile=dict(type='str', default='none'),

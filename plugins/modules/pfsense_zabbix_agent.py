@@ -113,7 +113,7 @@ options:
     type: str
   enabled:
     description: Enable or disable zabbix-agent.
-    default: true
+    default: false
     type: bool
 notes:
 requirements:
@@ -123,12 +123,12 @@ requirements:
 EXAMPLES = r'''
 - name: Configure Zabbix agent
   pfsense_zabbix_agent:
-      enabled: yes
-      hostname: "{{ ansible_nodename }}"
-      server: "{{ zabbix_server }}"
-      serveractive: "{{ zabbix_server }}"
-      listenip: "{{ ansible_igb0.ipv4[0].address if ansible_igb0 is defined else ansible_ix0.ipv4[0].address }}"
-    become: yes
+    enabled: yes
+    hostname: "{{ ansible_nodename }}"
+    server: "{{ zabbix_server }}"
+    serveractive: "{{ zabbix_server }}"
+    listenip: "{{ ansible_igb0.ipv4[0].address if ansible_igb0 is defined else ansible_ix0.ipv4[0].address }}"
+  become: yes
 '''
 
 RETURN = r'''
