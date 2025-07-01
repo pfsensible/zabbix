@@ -24,7 +24,7 @@ ZABBIX_AGENT_ARGUMENT_SPEC = dict(
     tlsconnect=dict(default='unencrypted', choices=['unencrypted', 'psk', 'cert']),
     tlsaccept=dict(type='list', default=['unencrypted'], choices=['unencrypted', 'psk', 'cert'], elements='str'),
     tlscafile=dict(type='str', default='none'),
-    tlscaos=dict(type='bool', default=False),
+    tlscaso=dict(type='bool', default=False),
     tlscrlfile=dict(type='str', default='none'),
     tlscertfile=dict(type='str', default='none'),
     tlspskidentity=dict(type='str', default=''),
@@ -76,7 +76,7 @@ class PFSenseZabbixAgentModule(PFSenseModuleBase):
                 self._get_ansible_param_bool(obj, key, fname='agentenabled', value='on', force=True)
             elif key == 'tlsaccept':
                 obj[key] = ','.join(self.params[key])
-            elif key == 'tlscaos':
+            elif key == 'tlscaso':
                 self._get_ansible_param_bool(obj, key, value='on', force=True)
             else:
                 self._get_ansible_param(obj, key)
@@ -85,6 +85,14 @@ class PFSenseZabbixAgentModule(PFSenseModuleBase):
 
     def _validate_params(self):
         """ do some extra checks on input parameters """
+        for key in ['tlscafile', 'tlscertfile', 'tlscrlfile']:
+            if self.params[key] != 'none':
+                elt = re.sub(r'tls(.*)file', r'\1', key)
+                refid = self.pfsense.get_refid(elt, self.params[key])
+                if refid is None:
+                    self.module.fail_json(msg='Could not find {0} named "{1}".'.format(key, self.params[key]))
+                else:
+                    self.params[key] = refid
 
     ##############################
     # XML processing

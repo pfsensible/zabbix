@@ -82,7 +82,7 @@ options:
     required: false
     default: none
     type: str
-  tlscaos:
+  tlscaso:
     description: Use the CA certificate list from the operating system.
     required: false
     default: false
