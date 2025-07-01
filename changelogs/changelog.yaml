@@ -1,0 +1,8 @@
+ancestor: null
+releases:
+  0.1.0:
+    modules:
+    - description: Manage pfSense zabbix-agent configuration.
+      name: pfsense_zabbix_agent
+      namespace: ''
+    release_date: '2025-07-01'
