@@ -78,6 +78,8 @@ class PFSenseZabbixAgentModule(PFSenseModuleBase):
                 obj[key] = ','.join(self.params[key])
             elif key == 'tlscaso':
                 self._get_ansible_param_bool(obj, key, value='on', force=True)
+            elif key == 'userparams':
+                obj['userparams'] = base64.b64encode(self.params[key].encode()).decode()
             else:
                 self._get_ansible_param(obj, key)
 
