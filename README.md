@@ -26,19 +26,11 @@ collections_paths=collections
 
 ## Configuration
 
-If Python discovery fails, you can set ansible_python_interpreter in your playbook or hosts vars:
+Current versions of ansible should automatically detect the version of Python on the pfSense system.  If Python discovery fails, you can set
+ansible_python_interpreter in your playbook or hosts vars, e.g. for pfSense 2.7.2:
 
-pfSense >= 2.5.2:
 ```
-ansible_python_interpreter: /usr/local/bin/python3.8
-```
-pfSense >= 2.4.5, < 2.5.2:
-```
-ansible_python_interpreter: /usr/local/bin/python3.7
-```
-pfSense < 2.4.5:
-```
-ansible_python_interpreter: /usr/local/bin/python2.7
+ansible_python_interpreter: /usr/local/bin/python3.11
 ```
 
 Modules must run as root in order to make changes to the system.  By default pfSense does not have sudo capability so `become` will not work.  You can install it with:
@@ -50,6 +42,16 @@ Modules must run as root in order to make changes to the system.  By default pfS
       state: present
 ```
 and then configure sudo so that your user has permission to use sudo.
+
+This package assumes that the Zabbix agent package has been installed.  This can be any version of the package, e.g.:
+```
+  - name: "Install Zabbix agent"
+    package:
+      name:
+        - pfSense-pkg-zabbix-agent7
+      state: present
+```
+
 ## Modules
 The following modules are currently available:
 
@@ -62,6 +64,11 @@ calling the appropriate PHP update function via the pfSense PHP developer shell.
 
 Some formatting is lost, and CDATA items are converted to normal entries,
 but so far no problems with that have been noted.
+
+## Writing new modules
+
+See [GENERATING_MODULES](https://github.com/pfsensible/core/blob/master/GENERATING_MODULES.md) for instructions on how to use the
+pfensible-generate-module script to automate the task writing basic pfsensible modules.
 
 ## License
 
