@@ -103,7 +103,7 @@ options:
     default: ''
     type: str
   tlspskfile:
-    description: Pre-shared key.
+    description: Pre-shared key. It is not shown in the output, nor in the diff.
     required: false
     default: ''
     type: str

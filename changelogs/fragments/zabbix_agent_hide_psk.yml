@@ -1,0 +1,2 @@
+security_fixes:
+  - pfsense_zabbix_agent - the pre-shared key (``tlspskfile``) is no longer shown in the module arguments or in the diff.

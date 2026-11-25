@@ -28,10 +28,13 @@ ZABBIX_AGENT_ARGUMENT_SPEC = dict(
     tlscrlfile=dict(type='str', default='none'),
     tlscertfile=dict(type='str', default='none'),
     tlspskidentity=dict(type='str', default=''),
-    tlspskfile=dict(type='str', default=''),
+    tlspskfile=dict(type='str', default='', no_log=True),
     userparams=dict(type='str', default=''),
     enabled=dict(type='bool', default=False),
 )
+
+# What Ansible shows in place of a no_log value
+REDACTED = 'VALUE_SPECIFIED_IN_NO_LOG_PARAMETER'
 
 
 class PFSenseZabbixAgentModule(PFSenseModuleBase):
@@ -149,6 +152,14 @@ class PFSenseZabbixAgentModule(PFSenseModuleBase):
             self.target_elt = self._find_target()
 
         self._add()
+        self._hide_psk()
+
+    def _hide_psk(self):
+        """ hide the pre-shared key in the diff: the stored key may differ from the one Ansible masks """
+        for key, snapshot in self.diff.items():
+            config = snapshot.get('config')
+            if isinstance(config, dict) and config.get('tlspskfile'):
+                self.diff[key] = dict(snapshot, config=dict(config, tlspskfile=REDACTED))
 
     def _update(self):
         """ make the target pfsense reload zabbix-agent """
